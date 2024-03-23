@@ -1,4 +1,5 @@
-import { NavHashLink } from "react-router-hash-link";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import Dim from "../assets/CssStyles";
 import SideBar from "../components/AboutPage/SideBar";
@@ -8,7 +9,25 @@ import Experience from "../components/AboutPage/Experience";
 import SubExperience from "../components/AboutPage/SubExperience";
 
 const HomePage = () => {
+  const handleMouseHover = () => {
+    console.log("test");
+  };
+
   const HeaderStyle = "text-red-800 text-3xl  font-semibold";
+
+  // Update active section based on scroll position
+  const [activeAboutDiv, setActiveAboutDiv] = useState<string>("");
+
+  // using useState and useLocation to make the links pop out when in the relevant section
+  const location = useLocation();
+
+  // Update active section based on pathname
+  useEffect(() => {
+    const hash = location.hash;
+    // Logic to determine active section based on hash
+    setActiveAboutDiv(hash.slice(1)); // Remove the '#' from the hash
+  }, [location.hash]);
+
   return (
     <div
       className={`HomePage flex flex-row`}
@@ -16,7 +35,7 @@ const HomePage = () => {
         height: `calc(100vh - ${Dim.NavBarHeight} - ${Dim.FooterHeight})`,
       }}
     >
-      <SideBar />
+      <SideBar activeAboutDiv={activeAboutDiv} />
 
       <section className="MainDiv h-full basis-2/3 bg-white overflow-y-scroll p-7">
         {/* 
@@ -24,7 +43,7 @@ const HomePage = () => {
         */}
 
         <AboutDiv>
-          <h2 id="about" className={HeaderStyle}>
+          <h2 id="about" className={`aboutDiv ${HeaderStyle}`}>
             About Me
           </h2>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus
@@ -38,7 +57,7 @@ const HomePage = () => {
         */}
 
         <AboutDiv>
-          <h2 id="projects" className={HeaderStyle}>
+          <h2 id="projects" className={`aboutDiv ${HeaderStyle}`}>
             Dev Projects
           </h2>
           <DevProject projectTitle="Pokemunch">
@@ -68,8 +87,8 @@ const HomePage = () => {
 
         {/* mc2i */}
 
-        <AboutDiv>
-          <h2 id="exp" className={HeaderStyle}>
+        <AboutDiv onMouseEnter={handleMouseHover}>
+          <h2 id="exp" className={`aboutDiv ${HeaderStyle}`}>
             Professional Experiences
           </h2>
           <Experience

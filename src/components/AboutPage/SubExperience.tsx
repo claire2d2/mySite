@@ -14,7 +14,7 @@ const SubExperience: React.FC<Props> = ({
     <div className="basis-5/6 py-4">
       <h3 className="font-medium text-2xl">{expTitle}</h3>
       <p>{expDateDetails}</p>
-      <p>{children}</p>
+      {children}
     </div>
   );
 };
